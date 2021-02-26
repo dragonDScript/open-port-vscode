@@ -1,12 +1,4 @@
 const vscode = require('vscode');
-const fetch = require('node-fetch');
-/**
- * @param {number} port
- */
-async function getWebviewContent(port) {
-	const req = await fetch(`http://localhost:${port}`)
-	return req.text()
-}
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -22,7 +14,16 @@ function activate(context) {
 		value.then(async function (port) {
 			if (!port) return;
 			let webview = vscode.window.createWebviewPanel("preview", port, vscode.ViewColumn.One)
-			webview.webview.html = await getWebviewContent(port)
+			webview.webview.html = `
+			<!DOCTYPE html>
+			<html>
+			<head>
+			</head>
+			<body>
+				<iframe src="http://localhost:${port}" frameborder="0" style="width: 100vw; height: 100vh;"> 
+			</body>
+			</html>
+			`
 		})
 	});
 
