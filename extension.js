@@ -1,10 +1,10 @@
 const vscode = require('vscode');
-const net = require('net');
+const fetch = require('node-fetch');
 /**
  * @param {number} port
  */
 async function getWebviewContent(port) {
-	const req = await window.fetch(`http://localhost:${port}`)
+	const req = await fetch(`http://localhost:${port}`)
 	return req.text()
 }
 
